@@ -7,15 +7,205 @@
     <title>Book Recommender System</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="navbar.css">
+    <!-- <link rel="stylesheet" href="navbar.css">
     <link rel="stylesheet" href="main2.css">
-    <link rel="stylesheet" href="main3.css">
+    <link rel="stylesheet" href="main3.css"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        /* main2.css */
+        .main2 {
+            height: 350px;
+            width: 100%;
+            margin-top: 80px;
+            background-color: lightgrey;
+        }
+
+        .t1 {
+            text-align: center;
+            font-size: 45px;
+            padding-top: 30px;
+        }
+
+        .t2 {
+            text-align: center;
+            font-size: 25px;
+        }
+
+        .pop {
+            text-align: center;
+            font-size: 40px;
+            margin-top: 30px;
+        }
+
+        /* main3.css */
+        .main3 {
+            margin-top: 50px;
+            display: flex;
+        }
+
+        .demo {
+            height: auto;
+            width: auto;
+            box-shadow: 5px 5px 25px lightgrey;
+            border-radius: 20px;
+            padding: 15px;
+            margin-left: 60px;
+            display: inline-block;
+        }
+
+        .bimage {
+            height: 250px;
+            width: 190px;
+            margin-left: 3px;
+            border-radius: 30px;
+        }
+
+        .te1 {
+            font-size: 20px;
+            margin-left: 3px;
+        }
+
+        .btn {
+            font-size: 15px;
+            margin-left: 3px;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-weight: 500;
+            background-color: rgb(34, 34, 255);
+            height: 50px;
+            width: 120px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            transition: 0.3s;
+        }
+
+
+
+        .navbar1 {
+            margin-top: 50px;
+            box-shadow: 5px 5px 20px;
+            height: 50px;
+            width: 100%;
+            background-color: black;
+            color: white;
+        }
+
+        .text {
+            padding: 10px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        /* navbar.css */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            height: 50px;
+            box-shadow: 5px 5px 18px grey;
+            background-color: black;
+
+        }
+
+        .li {
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        .list {
+            margin-top: 15px;
+            margin-left: 10px;
+        }
+
+        .booklogo {
+            color: white;
+            margin: 10px;
+        }
+
+        i {
+            font-size: 26px;
+            transition: 0.3s;
+        }
+
+        i:hover {
+            font-size: 36px;
+            opacity: 0.6;
+            transition: 0.5s;
+            cursor: pointer;
+        }
+
+        .sign {
+            text-decoration: none;
+            color: black;
+            margin-top: 6px;
+            margin-right: 10px;
+        }
+
+        .sign1 {
+            text-decoration: none;
+            color: rgba(0, 0, 0, 0.69);
+            margin-top: 6px;
+            margin-right: 10px;
+            border: none;
+            height: 30px;
+            width: 90px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .sign1:hover {
+            color: white;
+            background-color: crimson;
+            transition: 0.3s;
+        }
+    </style>
 </head>
 
-<body style="background-color:black; color:white;">
-    <nav class="navbar" style="background-color:pink">
+<body>
+    <div class="main">
+        <div class="navbar">
+            <div class="list">
+                <a class="li" href="/">Home</a>
+                <a class="li" href="{% url 'recommend' %}">Recommend</a>
+                <a class="li" href="#">Contact</a>
+            </div>
+
+            <div class="booklogo">
+                <i class="fa-solid fa-book-bookmark"></i>
+            </div>
+
+            <div class="sign">
+                <button class="sign1">Sign In</button></a>
+                <button class="sign1">Sign Up</button></a>
+            </div>
+        </div>
+        <div class="main2">
+            <p class="t1">Discover books you'll love!</p>
+            <p class="t2">Enter a book you like and the site will analyse our huge database of real
+                readers' favorite<br>books to provide book recommendations and suggestions for what to read next.
+            </p>
+        </div>
+        <div class="pop">Popular Subjects</div>
+
+        <!-- <nav class="navbar" style="background-color:pink">
         <p class="navbar-brand" style="margin-left:30px">My Book Recommender</p>
 
         <ul type="none" style="margin-right:30px">
@@ -24,39 +214,41 @@
             <li style="display:inline-block"> <a href="#"> Contact</a></li>
 
             <ul>
-    </nav>
+    </nav> -->
 
 
-    <div class="container">
+        <!-- <div class="container"> -->
         <div class="row">
-            <div class="col-12">
-                <h1 style="margin:4%;">Top 50 Books</h1>
-            </div>
+
 
             <div class="main3">
-                <div class="demo1">
-                    {% for item in restructured_data %}
+                <!-- <div class="demo1"> -->
+                {% for item in restructured_data %}
 
-                    <div class="demo">
-                        <form method="POST" action="{% url 'bookpage' %}">{% csrf_token %}
-                            {{ form.as_p }}
-                            <img class="bimage" src="{{ item.image_url }}" alt="{{ item.book_name }}">
+                <div class="demo">
+                    <form method="POST" action="{% url 'bookpage' %}">{% csrf_token %}
+                        {{ form.as_p }}
+                        <img class="bimage" src="{{ item.image_url }}" alt="{{ item.book_name }}">
 
-                            <p class="te1">{{ item.book_name }}</p>
-                            <p class="te1">-By {{ item.author }}</p>
-                            <a href="{% url 'bookpage' %}?book_name={{ item.book_name }}&author={{ item.author }}&image_url={{ item.image_url }}" target="_blank">view more</a>
-                            <br>
-                            <br>
-                        </form>
-                    </div>
-                    <!-- </div> -->
-                    <!-- {{ forloop.counter }} -->
-                    {% endfor %}
+                        <p class="te1">{{ item.book_name }}</p>
+                        <p class="te1">-By {{ item.author }}</p>
+                        <a href="{% url 'bookpage' %}?book_name={{ item.book_name }}&author={{ item.author }}&image_url={{ item.image_url }}"
+                            target="_blank">view more</a>
+                        <br>
+                        <br>
+                    </form>
                 </div>
+                <!-- </div> -->
+                <!-- {{ forloop.counter }} -->
+                {% endfor %}
             </div>
+            <!-- </div> -->
 
         </div>
-    </div>
+        <!-- </div> -->
+        <div class="navbar1">
+            <p class="text">COPYRIGHT © - BookBuddy RIGHTS RESERVED</p>
+        </div>
 
 </body>
 
