@@ -70,8 +70,8 @@ def suggest(book_name:str)->list:
     data = []
     for i in similar_items:
         item = []
-        print(books['book_title'])
-        print(pt.index[i[0]])
+        # print(books['book_title'])
+        # print(pt.index[i[0]])
         temp_df = books[books['book_title'] == pt.index[i[0]]]
         # print(temp_df)
         item.extend(list(temp_df.drop_duplicates('book_title')['book_title'].values))
