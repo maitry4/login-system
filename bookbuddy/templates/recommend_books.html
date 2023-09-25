@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommender System</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        input[type="submit"]:hover  {
+            background: rgba(0, 106, 255, 0.481);
+        }
+    </style>
+</head>
+<body style="background-color:black; color:white;">
+    <nav class="navbar" style="background-color:pink" >
+        <p class="navbar-brand" style="margin-left:30px">My Book Recommender</p>
+
+        <ul type="none" style="margin-right:30px">
+            <li style="display:inline-block"> <a href="/"> Home</a></li>    
+            <li style="display:inline-block"> <a href="/recommend"> Recommend</a></li>    
+            <li style="display:inline-block"> <a href="#"> Contact</a></li>   
+            
+        <ul>
+    </nav>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 style="margin:4%;">Your recommendations</h1>
+            </div>
+
+            <form action="{% url 'recommend_books' %}" method="POST" name="user_input"> {% csrf_token %}
+                {{ form.as_p }}
+                <input type="text" class="form-control" name="user_input"><br>
+                <input type="submit" value="Search" class="btn btn-lg my-btn" style="border:2px solid white; color:white;">
+            </form>
+
+            {% if data != "Sorry No books found" %}
+                {% for i in data %}
+                <div class="col-md-3" style="margin-top:50px;">
+                    <!-- <div class="card"> -->
+                        <div class="card-body">
+                            <img class="card-image-top" src="{{ i.2 }}" alt="{{ i.0 }}">
+                            <h3 style="margin:1%">{{ i.0 }}</h3>
+                            <p>-By {{ i.1 }}</p>
+                        </div>
+                    <!-- </div> -->
+                </div>
+                {% endfor%}
+            {% endif %}
+            {% if data == "Sorry No books found" %}
+               <p>{{ data }}</p>
+            {% endif %}
+
+            
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+.main3{
+  margin-top: 50px;
+  display: flex;
+}
+
+.demo{
+  height: auto;
+  width: auto;
+  box-shadow: 5px 5px 25px lightgrey;
+  border-radius: 20px;
+  padding: 15px;
+  margin-left: 60px;
+  display: inline-block;
+}
+
+.bimage{
+  height: 250px;
+  width: 190px;
+  margin-left: 3px;
+  border-radius: 30px;
+}
+
+.te1{
+  font-size: 20px;
+  margin-left: 3px;
+}
+
+.btn{
+  font-size: 15px;
+  margin-left: 3px;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-weight: 500;
+  background-color: rgb(34, 34, 255);
+  height: 50px;
+  width: 120px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn:hover{
+  transform: scale(1.1);
+  transition: 0.3s;
+}
+
+
+.navbar1{
+  margin-top: 50px;
+  box-shadow: 5px 5px 20px;
+  height: 50px;
+  width: 100%;
+}
+
+.text{
+  padding: 10px;
+  font-size: 20px;
+  text-align: center;
+}
+
+
