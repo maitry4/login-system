@@ -1,5 +1,8 @@
-from django.shortcuts import render, redirect
-from .forms import BookForm, SearchForm
+from django.shortcuts import render, redirect, HttpResponse
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from .forms import BookForm
 # from .mysql_to_dataframe import mysql_dataframe
 # from .collaborative_filt_model import suggest
 import pandas as pd
@@ -148,3 +151,37 @@ def recommend(request):
         return render(request, 'recommend.html', {'data':data})
     except:
         return render(request, 'recommend.html', {'data':'Sorry No such book in our database'})
+    
+@login_required(login_url='login')
+def HomePage(request):
+    return render(request, 'home.html')
+def SignupPage(request):
+    if request.method == 'POST':
+        # print("hello")
+        uname = request.POST.get('username')
+        pass1 = request.POST.get('password1')
+        pass2 = request.POST.get('password2')
+        if pass1 != pass2:
+            return HttpResponse("Your password and confirm password don't match!")
+        else:
+            my_user = User.objects.create_user(uname,"", pass1)
+            my_user.save()
+            return redirect('login')
+    return render(request, 'signup.html') 
+def LoginPage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        pass1 = request.POST.get('pass')
+
+        user = authenticate(request,username=username, password=pass1)
+        if user is not None:
+            login(request, user)
+            return redirect('homepage')
+        else:
+            return HttpResponse("Incorrect Username or Password!!")
+    return render(request, 'login.html') 
+
+
+def LogoutPage(request):
+    logout(request)
+    return redirect('login')
