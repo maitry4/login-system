@@ -91,6 +91,7 @@
         .te1 {
             font-size: 20px;
             margin-left: 3px;
+
         }
 
         .btn {
@@ -140,6 +141,7 @@
             background-color: black;
 
         }
+
         .li {
             text-decoration: none;
             color: white;
@@ -179,6 +181,7 @@
             background-color: crimson;
             transition: 0.3s;
         }
+
         /* navbar end */
         @keyframes pageEnterAnimation {
             from {
@@ -218,10 +221,14 @@
                 <a class="li" href="#">Contact</a>
             </div>
 
+            {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+            {% else %}
             <div class="sign">
-                <button class="sign1">Sign In</button></a>
-                <button class="sign1">Sign Up</button></a>
+                <a href="{% url 'signup' %}"><button class="sign1">Sign Up</button></a>
+                <a href="{% url 'login' %}"><button class="sign1">Log In</button></a>
             </div>
+            {% endif %}
         </div>
     </div>
     <div class="main123">
@@ -232,10 +239,33 @@
         <div class="text">
             <p class="text1">{{ book_name }}</p>
             <p class="text12">{{ author }}</p>
+            <p class="text12">{{ ISBN }}</p>
             <p class="text13"><br>
-                <a href="{% url 'bookpage' %}?book_name={{ book_name }}&author={{ author }}&image_url={{ image_url }}"
-                    target="_blank">view more</a>
+                <a href="{% url 'markread' %}?book_name={{ book_name }}&ISBN={{ ISBN}}"
+                    target="_blank">mark as read</a>
             </p>
+            {% block content %}
+            <!-- <h2>Rate "{{ book_name }}"</h2> -->
+            <form id="radioForm" method="post">
+                {% csrf_token %}
+                <div class="rating">
+                    5: <input type="radio" id="star5" name="rating" value="5">
+                    <label for="star5" title="5 stars"></label>
+                    4: <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4" title="4 stars"></label>
+                    3: <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3" title="3 stars"></label>
+                    2: <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2" title="2 stars"></label>
+                    1: <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1" title="1 star"></label>
+                </div>
+                <a id="link" href="{% url 'bookpage' %}?book_name={{ book_name }}&author={{ itemauthor }}&image_url={{ image_url }}&ISBN={{ ISBN }}"
+                    target="_blank">Rate</a>
+
+            </form>
+            {% endblock %}
+
         </div>
 
     </div>
@@ -248,15 +278,16 @@
                     <img src="{{ i.2 }}" alt="{{ i.0 }}" class="bgimage">
                     <p class="te1">{{ i.0 }}</p>
                     <p class="te1">{{ i.1 }}</p>
-                    <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}"
-                        target="_blank">view more</a>
+                    <p class="te1">{{ i.3 }}</p>
+                    <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}&ISBN={{ i.3 }}"
+                        target="_blank">View More</a>
                 </form>
             </div>
             {% endfor%}
         </div>
     </div>
 
-            <!-- 
+    <!-- 
     <h1>Book Details</h1>
     <p>Book Name: {{ book_name }}</p>
     <p>Author: {{ author }}</p>
@@ -264,8 +295,8 @@
     <h2>Recommendations</h2>
     {% for i in details %}
     <div class="col-md-3" style="margin-top:50px;"> -->
-            <!-- <div class="card"> -->
-            <!-- <div class="card-body">
+    <!-- <div class="card"> -->
+    <!-- <div class="card-body">
             <img class="card-image-top" src="{{ i.2 }}" alt="{{ i.0 }}">
             <h3 style="margin:1%">{{ i.0 }}</h3>
             <p>-By {{ i.1 }}</p>
@@ -274,9 +305,38 @@
             <br>
             <br>
         </div> -->
-            <!-- </div> -->
-        <!-- </div> -->
-        <!-- {% endfor%} -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- {% endfor%} -->
+    <script>
+        // Get references to the form and the link
+        const radioForm = document.getElementById('radioForm');
+        const link = document.getElementById('link');
+
+        // Add a click event listener to the link
+        link.addEventListener('click', function (event) {
+            // Prevent the default link behavior
+            event.preventDefault();
+
+            // Get the selected radio button
+            const selectedOption = document.querySelector('input[name="rating"]:checked');
+            // Open the generated URL in a new tab
+            if (selectedOption) {
+                // Get the value of the selected radio button
+                const selectedValue = selectedOption.value;
+                
+                // Update the href attribute of the link with the selected value
+                // link.href += '&selected=' + selectedValue;
+                var url = "{% url 'rate' %}?book_name={{ book_name }}&author={{ itemauthor }}&image_url={{ image_url }}&ISBN={{ ISBN }}&selected="+selectedValue;
+                var newTab = window.open(url, '_blank');
+                newTab.focus();
+
+                // You can also use other methods to navigate or open the link, for example:
+                // window.location.href = link.href;
+            }
+        });
+
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommender System</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            height: 50px;
+            box-shadow: 5px 5px 18px grey;
+            background-color: black;
+
+        }
+
+        .li {
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        .list {
+            margin-top: 15px;
+            margin-left: 10px;
+        }
+
+        .booklogo {
+            color: white;
+            margin: 10px;
+        }
+
+        i {
+            font-size: 26px;
+            transition: 0.3s;
+        }
+
+        i:hover {
+            font-size: 36px;
+            opacity: 0.6;
+            transition: 0.5s;
+            cursor: pointer;
+        }
+
+        .sign {
+            text-decoration: none;
+            color: black;
+            margin-top: 6px;
+            margin-right: 10px;
+        }
+
+        .sign1 {
+            text-decoration: none;
+            color: rgba(0, 0, 0, 0.69);
+            margin-top: 6px;
+            margin-right: 10px;
+            border: none;
+            height: 30px;
+            width: 90px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .sign1:hover {
+            color: white;
+            background-color: crimson;
+            transition: 0.3s;
+        }
+    </style>
+    {% endblock %}
+</head>
+
+<body>
+    
+    {% block content %}
+    <div class="main">
+        <div class="navbar">
+            <div class="list">
+                <a class="li" href="/">Home</a>
+                <a class="li" href="{% url 'recommend' %}">Recommend</a>
+                <a class="li" href="#">Contact</a>
+            </div>
+
+            <div class="booklogo">
+                <i class="fa-solid fa-book-bookmark"></i>
+            </div>
+            
+            <div class="sign">
+                <a href="{% url 'signup' %}"><button class="sign1">Sign Up</button></a>
+                <a href="{% url 'login' %}"><button class="sign1">Log In</button></a>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+
+</html>

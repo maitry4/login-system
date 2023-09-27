@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import BookForm
+# from .forms import BookForm, RatingForm
+# from .models import ReadingHistory
 # from .mysql_to_dataframe import mysql_dataframe
 # from .collaborative_filt_model import suggest
 import pandas as pd
@@ -60,7 +61,7 @@ famous_books = y[y].index
 final_ratings = filtered_rating_based_on_users[filtered_rating_based_on_users['book_title'].isin(famous_books)]
 # print(final_ratings)
 # filtered ratings that passes the criteria we set above
-pt = final_ratings.pivot_table(index='book_title', columns='userid', values='book_rating')
+pt = final_ratings.pivot_table(index='book_title', columns='userid', values=['book_rating', 'ISBN'])
 pt.fillna(0, inplace=True)
 
 similarity_scores = cosine_similarity(pt)
@@ -80,6 +81,7 @@ def suggest(book_name:str)->list:
         item.extend(list(temp_df.drop_duplicates('book_title')['book_title'].values))
         item.extend(list(temp_df.drop_duplicates('book_title')['book_author'].values))
         item.extend(list(temp_df.drop_duplicates('book_title')['image_url'].values))
+        item.extend(list(temp_df.drop_duplicates('book_title')['ISBN'].values))
 
         data.append(item)
 
@@ -91,7 +93,8 @@ popular_df = mysql_dataframe("localhost", "root", "maitry", "book_recommend", "t
 
 details = {'book': list(popular_df['title'].values),
     'author': list(popular_df['author'].values),
-    'image': list(popular_df['image_url'].values)}
+    'image': list(popular_df['image_url'].values),
+    'ISBN' : list(popular_df['ISBN'].values)}
 
 
 restructured_data = []
@@ -100,33 +103,51 @@ for i in range(5):
     restructured_data.append({
         'book_name': details['book'][i],
         'author': details['author'][i],
-        'image_url': details['image'][i]
+        'image_url': details['image'][i],
+        'ISBN': details['ISBN'][i],
     })
 def index(request):
-    if request.method == 'POST':
-        form = BookForm(request.POST)
-        if form.is_valid():
-            # Store form data in the session
-            request.session['book_name'] = form.cleaned_data['book_name']
-            request.session['author'] = form.cleaned_data['author']
-            request.session['image_url'] = form.cleaned_data['image_url']
-            # Add more fields as needed
+    if request.user.is_authenticated:
+        try:  
+            conn = mysql.connector.connect(host="localhost", user="root", password="maitry", database="book_recommend")
+            cursor = conn.cursor()
 
-            return redirect('bookpage')
-    else:
-        form = BookForm()
+            query = "select book_title from reading_history where userid= %s;"
+            # Execute the query with the user ID or username as a parameter
+            cursor.execute(query, (request.user.id,))
+
+            # Fetch the result
+            result = cursor.fetchone()
+            result=result[0]
+            details = suggest(result)
+
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return render(request,'index.html', context = {'restructured_data': restructured_data, 'details':details})
+
+        except mysql.connector.Error as err:
+            print(f"Error: {err}")
+        finally:
+            if conn.is_connected():
+                cursor.close()
+                conn.close()
+    
     return render(request,'index.html', context = {'restructured_data': restructured_data})
 
+@login_required(login_url="login")
 def bookpage(request):
     book_name = request.GET.get('book_name')
     author = request.GET.get('author')
     image_url = request.GET.get('image_url')
+    ISBN = request.GET.get('ISBN')
 
     details = suggest(book_name)
     # Retrieve other fields as needed from the session
-    return render(request,'BookPage.html', {'book_name': book_name, 'author': author, 'image_url': image_url, 'details':details})
+    return render(request,'BookPage.html', {'book_name': book_name, 'author': author, 'image_url': image_url, 'ISBN': ISBN , 'details':details})
 
 # before search
+@login_required(login_url="login")
 def recommend_ui(request):
     if request.method == 'POST':
         user_input = request.POST.get('user_input')
@@ -142,19 +163,24 @@ def recommend_ui(request):
     return render(request, 'recommend.html')
     
 # after search
+@login_required(login_url="login")
 def recommend(request):
     user_input = request.POST.get('user_input')
     user_input = str(user_input)
     # print(user_input)
     try:
         data = suggest(user_input)
+        print(data)
         return render(request, 'recommend.html', {'data':data})
     except:
         return render(request, 'recommend.html', {'data':'Sorry No such book in our database'})
     
+
 @login_required(login_url='login')
 def HomePage(request):
     return render(request, 'home.html')
+
+
 def SignupPage(request):
     if request.method == 'POST':
         # print("hello")
@@ -168,6 +194,8 @@ def SignupPage(request):
             my_user.save()
             return redirect('login')
     return render(request, 'signup.html') 
+
+
 def LoginPage(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -176,7 +204,7 @@ def LoginPage(request):
         user = authenticate(request,username=username, password=pass1)
         if user is not None:
             login(request, user)
-            return redirect('homepage')
+            return redirect('home')
         else:
             return HttpResponse("Incorrect Username or Password!!")
     return render(request, 'login.html') 
@@ -185,3 +213,74 @@ def LoginPage(request):
 def LogoutPage(request):
     logout(request)
     return redirect('login')
+
+
+
+@login_required
+def rate_book(request):
+    ISBN = request.GET.get('ISBN')
+    rating = int(request.GET.get('selected'))
+    print(ISBN, rating)
+    try:  
+        conn = mysql.connector.connect(host="localhost", user="root", password="maitry", database="book_recommend")
+        cursor = conn.cursor()
+        # print("I am here")
+        # print(request.user.id)
+        # print(f"insert into ratings(userid, ISBN, book_rating) values({request.user.id}, {ISBN}, {rating})")
+        query = f"insert into ratings(userid, ISBN, book_rating) VALUES (%s, %s, %s)"
+        values = (int(request.user.id), ISBN, rating)
+        cursor.execute(query, values)
+        conn.commit()
+        # print("Rated successfully!")
+
+
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
+
+        return HttpResponse("Rated Successfully!!")
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
+    return HttpResponse("Couldn't rate")
+
+@login_required
+def mark_as_read(request):
+    ISBN = request.GET.get('ISBN')
+    book_name = request.GET.get('book_name')
+    try:  
+        conn = mysql.connector.connect(host="localhost", user="root", password="maitry", database="book_recommend")
+        cursor = conn.cursor()
+        query = "SELECT COUNT(*) FROM reading_history WHERE userid = %s"  # Change 'user_id' to your actual column name
+
+        # Execute the query with the user ID or username as a parameter
+        cursor.execute(query, (request.user.id,))
+
+        # Fetch the result
+        result = cursor.fetchone()
+
+        # Check if the user exists (result will be a tuple with the count)
+        if result[0] > 0:
+            query1 = "delete from reading_history where userid = %s"
+            cursor.execute(query1, (request.user.id,))
+        query2 = "insert into reading_history(userid, isbn, book_title) values(%s, %s, %s)"
+        values = (request.user.id, ISBN, book_name)
+        cursor.execute(query2, (values))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return HttpResponse("Marked As Read Successfully!!")
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
+    return HttpResponse("Couldn't Mark As Read. Try again later!")

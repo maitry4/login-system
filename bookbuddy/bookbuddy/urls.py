@@ -21,6 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='home'),
     path('book/', views.bookpage, name='bookpage'),
+    path('rated/', views.rate_book, name='rate'),
+    path('markread/', views.mark_as_read, name='markread'),
     path('recommend/', views.recommend_ui, name='recommend'),
     path('recommend_books/', views.recommend, name='recommend_books'),
     path('signup/', views.SignupPage, name='signup'),
