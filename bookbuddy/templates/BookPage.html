@@ -123,6 +123,8 @@
             box-shadow: 5px 5px 20px;
             height: 50px;
             width: 100%;
+            background-color: black;
+            color: white;
         }
 
         .text {
@@ -136,7 +138,7 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            height: 50px;
+            height: 60px;
             box-shadow: 5px 5px 18px grey;
             background-color: black;
 
@@ -199,6 +201,40 @@
         body.linked-page-enter-animation {
             animation: pageEnterAnimation 0.5s ease;
         }
+
+        /* Rating */
+         /* Hide the default radio button */
+         input[type="radio"] {
+            display: none;
+        }
+
+        /* Create a custom star shape using CSS */
+        .custom-radio {
+            width: 30px;
+            height: 30px;
+            background-color: yellow;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .custom-radio::before {
+            content: "\2605"; /* Unicode character for a star */
+            font-size: 24px;
+            color: #f3de91; /* Yellow color */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Style the radio button when it's checked */
+        input[type="radio"]:checked + .custom-radio::before {
+            color: #ffdb58; /* Yellow color */
+        }
+        
+
+
     </style>
 </head>
 
@@ -222,7 +258,7 @@
             </div>
 
             {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+            <a href="{% url 'logout' %}"><button class="sign1">Logout</button></a>
             {% else %}
             <div class="sign">
                 <a href="{% url 'signup' %}"><button class="sign1">Sign Up</button></a>
@@ -239,51 +275,69 @@
         <div class="text">
             <p class="text1">{{ book_name }}</p>
             <p class="text12">{{ author }}</p>
-            <p class="text12">{{ ISBN }}</p>
+            <p class="text12">ISBN: {{ ISBN }}</p>
             <p class="text13"><br>
-                <a href="{% url 'markread' %}?book_name={{ book_name }}&ISBN={{ ISBN}}"
-                    target="_blank">mark as read</a>
             </p>
             {% block content %}
             <!-- <h2>Rate "{{ book_name }}"</h2> -->
             <form id="radioForm" method="post">
                 {% csrf_token %}
                 <div class="rating">
-                    5: <input type="radio" id="star5" name="rating" value="5">
-                    <label for="star5" title="5 stars"></label>
-                    4: <input type="radio" id="star4" name="rating" value="4">
-                    <label for="star4" title="4 stars"></label>
-                    3: <input type="radio" id="star3" name="rating" value="3">
-                    <label for="star3" title="3 stars"></label>
-                    2: <input type="radio" id="star2" name="rating" value="2">
-                    <label for="star2" title="2 stars"></label>
-                    1: <input type="radio" id="star1" name="rating" value="1">
-                    <label for="star1" title="1 star"></label>
+                    <!-- <label for="star5" title="5 stars"></label> -->
+                    <label class="star" for="star1" title="Bad" aria-hidden="true">Bad &nbsp; &nbsp;&nbsp;
+                        <input type="radio" id="star1" name="rating" value="1" />
+                        <span class="custom-radio"></span>
+                    </label> &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                    <label class="star" for="star2" title="Good" aria-hidden="true">Good &nbsp; &nbsp;&nbsp;
+                        <input type="radio" id="star2" name="rating" value="2" />
+                        <span class="custom-radio"></span>
+                    </label>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                    <label class="star" for="star3" title="Very good" aria-hidden="true">Very good &nbsp; &nbsp;&nbsp;
+                        <input type="radio" id="star3" name="rating" value="3" />
+                        <span class="custom-radio"></span>
+                    </label>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                    <label class="star" for="star4" title="Great" aria-hidden="true">Great &nbsp; &nbsp;&nbsp;
+                        <input type="radio" id="star4" name="rating" value="4" />
+                        <span class="custom-radio"></span>
+                    </label> &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                    <label class="star" for="star5" title="Awesome" aria-hidden="true">Awesome &nbsp; &nbsp;&nbsp;
+                        <input type="radio" id="star5" name="rating" value="5" />
+                        <span class="custom-radio"></span>
+                    </label>
+                    
                 </div>
-                <a id="link" href="{% url 'bookpage' %}?book_name={{ book_name }}&author={{ itemauthor }}&image_url={{ image_url }}&ISBN={{ ISBN }}"
-                    target="_blank">Rate</a>
-
+                <br>
+                <a id="link"
+                href="{% url 'bookpage' %}?book_name={{ book_name }}&author={{ itemauthor }}&image_url={{ image_url }}&ISBN={{ ISBN }}"
+                ><button type="submit" class="btn btn-lg my-btn">Rate</button></a>
+                <button class="btn btn-lg my-btn"><a href="{% url 'markread' %}?book_name={{ book_name }}&ISBN={{ ISBN}}" 
+                    style="display: inline-block; color:white; text-decoration: none;">mark as read</a></button>
+                
             </form>
             {% endblock %}
 
         </div>
 
     </div>
+    <br>
+    <br>
     <p class="like">More Like This !!</p>
-    <div class="main3">
-        <div class="demo1">
+    <div class="row">
+        <div class="main3">
+            <!-- <div class="demo"> -->
             {% for i in details %}
             <div class="demo">
-                <form>
-                    <img src="{{ i.2 }}" alt="{{ i.0 }}" class="bgimage">
-                    <p class="te1">{{ i.0 }}</p>
-                    <p class="te1">{{ i.1 }}</p>
-                    <p class="te1">{{ i.3 }}</p>
-                    <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}&ISBN={{ i.3 }}"
-                        target="_blank">View More</a>
-                </form>
+                <!-- <form> -->
+                <img src="{{ i.2 }}" alt="{{ i.0 }}" class="bgimage">
+                <p class="te1">{{ i.0 }}</p>
+                <p class="te1">-By {{ i.1 }}</p>
+                <p class="te1">ISBN {{ i.3 }}</p>
+                <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}&ISBN={{ i.3 }}"
+                    >View More</a>
+                <!-- </form> -->
             </div>
             {% endfor%}
+            <!-- </div> -->
         </div>
     </div>
 
@@ -300,7 +354,7 @@
             <img class="card-image-top" src="{{ i.2 }}" alt="{{ i.0 }}">
             <h3 style="margin:1%">{{ i.0 }}</h3>
             <p>-By {{ i.1 }}</p>
-            <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}" target="_blank">view
+            <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}" >view
                 more</a>
             <br>
             <br>
@@ -308,6 +362,9 @@
     <!-- </div> -->
     <!-- </div> -->
     <!-- {% endfor%} -->
+    <div class="navbar1">
+        <p class="text">COPYRIGHT © - BookBuddy RIGHTS RESERVED</p>
+    </div>
     <script>
         // Get references to the form and the link
         const radioForm = document.getElementById('radioForm');
@@ -324,10 +381,10 @@
             if (selectedOption) {
                 // Get the value of the selected radio button
                 const selectedValue = selectedOption.value;
-                
+
                 // Update the href attribute of the link with the selected value
                 // link.href += '&selected=' + selectedValue;
-                var url = "{% url 'rate' %}?book_name={{ book_name }}&author={{ itemauthor }}&image_url={{ image_url }}&ISBN={{ ISBN }}&selected="+selectedValue;
+                var url = "{% url 'rate' %}?book_name={{ book_name }}&author={{ itemauthor }}&image_url={{ image_url }}&ISBN={{ ISBN }}&selected=" + selectedValue;
                 var newTab = window.open(url, '_blank');
                 newTab.focus();
 

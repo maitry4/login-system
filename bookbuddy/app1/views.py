@@ -111,23 +111,27 @@ def index(request):
         try:  
             conn = mysql.connector.connect(host="localhost", user="root", password="maitry", database="book_recommend")
             cursor = conn.cursor()
-
+            print(f"{request}")
             query = "select book_title from reading_history where userid= %s;"
             # Execute the query with the user ID or username as a parameter
             cursor.execute(query, (request.user.id,))
 
             # Fetch the result
             result = cursor.fetchone()
-            result=result[0]
-            details = suggest(result)
+            try:
+                result=result[0]
+                details = suggest(result)
+            except Exception:
+                details = suggest(result)
 
             conn.commit()
             cursor.close()
             conn.close()
             return render(request,'index.html', context = {'restructured_data': restructured_data, 'details':details})
-
         except mysql.connector.Error as err:
             print(f"Error: {err}")
+        except Exception as e:
+            print(e)
         finally:
             if conn.is_connected():
                 cursor.close()
@@ -238,7 +242,7 @@ def rate_book(request):
             cursor.close()
             conn.close()
 
-        return HttpResponse("Rated Successfully!!")
+        return redirect('home')
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
@@ -250,8 +254,8 @@ def rate_book(request):
 
 @login_required
 def mark_as_read(request):
-    ISBN = request.GET.get('ISBN')
-    book_name = request.GET.get('book_name')
+    ISBN = str(request.GET.get('ISBN'))
+    book_name = str(request.GET.get('book_name'))
     try:  
         conn = mysql.connector.connect(host="localhost", user="root", password="maitry", database="book_recommend")
         cursor = conn.cursor()
@@ -275,7 +279,7 @@ def mark_as_read(request):
         cursor.close()
         conn.close()
 
-        return HttpResponse("Marked As Read Successfully!!")
+        return redirect('home')
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")

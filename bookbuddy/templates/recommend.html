@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Recommender System</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <style>
         body {
@@ -14,8 +16,8 @@
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
             background-color: white;
         }
-        
-        input[type="submit"]:hover  {
+
+        input[type="submit"]:hover {
             background: rgba(0, 106, 255, 0.481);
         }
 
@@ -24,7 +26,7 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            height: 50px;
+            height: 60px;
             box-shadow: 5px 5px 18px grey;
             background-color: black;
 
@@ -87,9 +89,26 @@
         body.linked-page-enter-animation {
             animation: pageEnterAnimation 0.5s ease;
         }
+
+        .navbar1 {
+            margin-top: 20%;
+            box-shadow: 5px 5px 20px;
+            height: 50px;
+            width: 100%;
+            background-color: black;
+            color: white;
+
+        }
+
+        .text {
+            padding: 10px;
+            font-size: 20px;
+            text-align: center;
+        }
     </style>
 </head>
-<body style="background-color:black; color:white;">
+
+<body>
     <div class="main">
         <div class="navbar">
             <div class="list">
@@ -99,7 +118,8 @@
             </div>
 
             {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+            <a href="{% url 'logout' %}"><button class="sign1">Logout</button></a>
+            <!-- <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a> -->
             {% else %}
             <div class="sign">
                 <a href="{% url 'signup' %}"><button class="sign1">Sign Up</button></a>
@@ -117,32 +137,38 @@
             </div>
 
             <form action="{% url 'recommend_books' %}" method="POST"> {% csrf_token %}
-                
-                <input type="text" class="form-control" name="user_input"><br>
-                <button type="submit" class="btn btn-lg my-btn" style="border:2px solid white; color:white;">Search</button>
+
+                <input type="text" class="form-control" name="user_input" style="border:2px solid black;"><br>
+                <button type="submit" class="btn btn-lg my-btn" style="border:2px solid black;">Search</button>
             </form>
 
             {% if data != "Sorry No such book in our database" %}
-                {% for i in data %}
-                <div class="col-md-3" style="margin-top:50px;">
-                    <!-- <div class="card"> -->
-                        <div class="card-body">
-                            <img class="card-image-top" src="{{ i.2 }}" alt="{{ i.0 }}">
-                            <h3 style="margin:1%">{{ i.0 }}</h3>
-                            <p>-By {{ i.1 }}</p>
-                        </div>
-                        <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}" target="_blank">view more</a>
-                    <!-- </div> -->
+            {% for i in data %}
+            <div class="col-md-3" style="margin-top:50px;">
+                <!-- <div class="card"> -->
+                <div class="card-body">
+                    <img class="card-image-top" src="{{ i.2 }}" alt="{{ i.0 }}">
+                    <h3 style="margin:1%">{{ i.0 }}</h3>
+                    <p>-By {{ i.1 }}</p>
                 </div>
-                {% endfor%}
+                <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}"
+                    target="_blank">View more</a>
+                <!-- </div> -->
+            </div>
+            {% endfor%}
             {% endif %}
             {% if data == "Sorry No such book in our database" %}
-               <br><p>{{ data }}</p>
+            <br>
+            <p>{{ data }}</p>
             {% endif %}
 
-            
-            
+
+
         </div>
     </div>
+    <div class="navbar1">
+        <p class="text">COPYRIGHT © - BookBuddy RIGHTS RESERVED</p>
+    </div>
 </body>
+
 </html>
