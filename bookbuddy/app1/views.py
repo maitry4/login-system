@@ -223,7 +223,11 @@ def LogoutPage(request):
 @login_required
 def rate_book(request):
     ISBN = request.GET.get('ISBN')
-    rating = int(request.GET.get('selected'))
+    rating = request.GET.get('selected')
+    try:
+        rating = int(request.GET.get('selected'))
+    except TypeError:
+        print("Couldn't rate")
     print(ISBN, rating)
     try:  
         conn = mysql.connector.connect(host="localhost", user="root", password="maitry", database="book_recommend")

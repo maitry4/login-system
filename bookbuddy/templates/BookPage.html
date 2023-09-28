@@ -307,9 +307,9 @@
                     
                 </div>
                 <br>
-                <a id="link"
-                href="{% url 'bookpage' %}?book_name={{ book_name }}&author={{ itemauthor }}&image_url={{ image_url }}&ISBN={{ ISBN }}"
-                ><button type="submit" class="btn btn-lg my-btn">Rate</button></a>
+                <button type="submit" class="btn btn-lg my-btn"><a id="link"
+                href="{% url 'bookpage' %}?book_name={{ book_name }}&author={{ itemauthor }}&image_url={{ image_url }}&ISBN={{ ISBN }}" style="display: inline-block; color:white; text-decoration: none;"
+                >Rate</a></button>
                 <button class="btn btn-lg my-btn"><a href="{% url 'markread' %}?book_name={{ book_name }}&ISBN={{ ISBN}}" 
                     style="display: inline-block; color:white; text-decoration: none;">mark as read</a></button>
                 
@@ -385,7 +385,7 @@
                 // Update the href attribute of the link with the selected value
                 // link.href += '&selected=' + selectedValue;
                 var url = "{% url 'rate' %}?book_name={{ book_name }}&author={{ itemauthor }}&image_url={{ image_url }}&ISBN={{ ISBN }}&selected=" + selectedValue;
-                var newTab = window.open(url, '_blank');
+                var newTab = window.open(url, '_self');
                 newTab.focus();
 
                 // You can also use other methods to navigate or open the link, for example:
