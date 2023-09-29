@@ -1,9 +1,0 @@
-This program can be further improved with some constraints 
-No empty Username , email or passwords
-valid characters in username
-valid email 
-minimum no. of characters in username, password
-either in front end or server side code
-Also use try and except statement to catch any other errors.
-
-I am yet to dump data in databased format
