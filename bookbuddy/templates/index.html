@@ -38,7 +38,7 @@
         .pop {
             text-align: center;
             font-size: 40px;
-            margin-top: 30px;
+            /* margin-top: 0px; */
         }
 
         /* main3.css */
@@ -223,9 +223,11 @@
         </div>
         
         {% if user.is_authenticated %}
+        {% if not details %}
         <div class="pop" id="might" style="margin-top: 0px;">Explore To See What You Like Here</div> <br>
+        {% endif %}
         {% if details %}
-        <div class="pop" id="might">You Might Also Like</div>
+        <div class="pop" id="might">You Might Also Like</div> <br>
         <div class="row">
             <div class="main3">
                 
@@ -249,7 +251,7 @@
         {% endif %}
         {% endif %}
         
-        <div class="pop" id="pop">Popular Subjects</div>
+        <div class="pop" id="pop">Popular Subjects</div> <br>
         <div class="row">
             <div class="main3">
                 {% for item in restructured_data %}
