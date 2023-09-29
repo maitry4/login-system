@@ -12,7 +12,6 @@ ratings_with_name = ratings.merge(books, on='ISBN')
 
 x = ratings_with_name.groupby('userid').count()['book_rating'] > 200
 users_who_rated_more_than_200_books = x[x].index
-# filtered_rating_based_on_users (padhe_likhe_users)
 filtered_rating_based_on_users = ratings_with_name[ratings_with_name['userid'].isin(users_who_rated_more_than_200_books)]
 
 # filtered_rating_based_on_books
@@ -20,11 +19,11 @@ y = filtered_rating_based_on_users.groupby('book_title').count()['book_rating'] 
 famous_books = y[y].index
 
 final_ratings = filtered_rating_based_on_users[filtered_rating_based_on_users['book_title'].isin(famous_books)]
-# print(final_ratings)
-# filtered ratings that passes the criteria we set above
+
 pt = final_ratings.pivot_table(index='book_title', columns='userid', values='book_rating')
 pt.fillna(0, inplace=True)
-
+# every book is a vector in a 810 dimension space
+# every book's distance is being found with every other book so as to find which books are similar
 similarity_scores = cosine_similarity(pt)
 
 def suggest(book_name:str)->list:

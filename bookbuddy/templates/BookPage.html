@@ -239,16 +239,7 @@
 </head>
 
 <body>
-    <!-- <nav class="navbar" style="background-color:pink">
-        <p class="navbar-brand" style="margin-left:30px">My Book Recommender</p>
 
-        <ul type="none" style="margin-right:30px">
-            <li style="display:inline-block"> <a href="/"> Home</a></li>
-            <li style="display:inline-block"> <a href="/recommend"> Recommend</a></li>
-            <li style="display:inline-block"> <a href="#"> Contact</a></li>
-
-            <ul>
-    </nav> -->
     <div class="main">
         <div class="navbar">
             <div class="list">
@@ -279,11 +270,9 @@
             <p class="text13"><br>
             </p>
             {% block content %}
-            <!-- <h2>Rate "{{ book_name }}"</h2> -->
             <form id="radioForm" method="post">
                 {% csrf_token %}
                 <div class="rating">
-                    <!-- <label for="star5" title="5 stars"></label> -->
                     <label class="star" for="star1" title="Bad" aria-hidden="true">Bad &nbsp; &nbsp;&nbsp;
                         <input type="radio" id="star1" name="rating" value="1" />
                         <span class="custom-radio"></span>
@@ -324,47 +313,22 @@
     <p class="like">More Like This !!</p>
     <div class="row">
         <div class="main3">
-            <!-- <div class="demo"> -->
             {% for i in details %}
-            <div class="demo">
-                <!-- <form> -->
                 <img src="{{ i.2 }}" alt="{{ i.0 }}" class="bgimage">
                 <p class="te1">{{ i.0 }}</p>
                 <p class="te1">-By {{ i.1 }}</p>
                 <p class="te1">ISBN {{ i.3 }}</p>
                 <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}&ISBN={{ i.3 }}"
                     >View More</a>
-                <!-- </form> -->
             </div>
             {% endfor%}
-            <!-- </div> -->
         </div>
     </div>
 
-    <!-- 
-    <h1>Book Details</h1>
-    <p>Book Name: {{ book_name }}</p>
-    <p>Author: {{ author }}</p>
-    <img src="{{ image_url }}" alt="{{ book_name }}">
-    <h2>Recommendations</h2>
-    {% for i in details %}
-    <div class="col-md-3" style="margin-top:50px;"> -->
-    <!-- <div class="card"> -->
-    <!-- <div class="card-body">
-            <img class="card-image-top" src="{{ i.2 }}" alt="{{ i.0 }}">
-            <h3 style="margin:1%">{{ i.0 }}</h3>
-            <p>-By {{ i.1 }}</p>
-            <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}" >view
-                more</a>
-            <br>
-            <br>
-        </div> -->
-    <!-- </div> -->
-    <!-- </div> -->
-    <!-- {% endfor%} -->
     <div class="navbar1">
         <p class="text">COPYRIGHT © - BookBuddy RIGHTS RESERVED</p>
     </div>
+    <!-- Needed Javascript for rating -->
     <script>
         // Get references to the form and the link
         const radioForm = document.getElementById('radioForm');
@@ -388,8 +352,6 @@
                 var newTab = window.open(url, '_self');
                 newTab.focus();
 
-                // You can also use other methods to navigate or open the link, for example:
-                // window.location.href = link.href;
             }
         });
 
