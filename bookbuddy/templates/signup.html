@@ -17,7 +17,7 @@
     box-sizing: border-box;
 }
 body{
-    background-color: #080710;
+    background-color: #FAF9F6;
 }
 .background{
     width: 430px;
@@ -66,7 +66,7 @@ form{
 }
 form *{
     font-family: 'Poppins',sans-serif;
-    color: #ffffff;
+    /* color: #ffffff; */
     letter-spacing: 0.5px;
     outline: none;
     border: none;
@@ -88,20 +88,23 @@ input{
     display: block;
     height: 40px;
     width: 100%;
-    background-color: rgba(255,255,255,0.07);
+    background-color: rgb(230 230 230 / 84%);
     border-radius: 3px;
     padding: 0 10px;
     margin-top: 2px;
     font-size: 14px;
     font-weight: 300;
 }
-::placeholder{
+/* ::placeholder{
     color: #e5e5e5;
+} */
+a{
+    color:black;
 }
 button{
     margin-top: 14px;
     width: 100%;
-    background-color: #ffffff;
+    background-color: #dcdcdc;
     color: #080710;
     padding: 15px 0;
     font-size: 18px;
@@ -119,7 +122,7 @@ button{
   border-radius: 3px;
   padding: 5px 10px 10px 5px;
   background-color: rgba(255,255,255,0.27);
-  color: #eaf0fb;
+  /* color: #eaf0fb; */
   text-align: center;
 }
 .social div:hover{
@@ -154,7 +157,7 @@ button{
         <input type="password" placeholder="Confirm Password" id="password2" name="password2">
         <button type="submit">Signup</button>
         
-        <a href="{% url 'login' %}" >i have already account</a> <br>
+        <a href="{% url 'login' %}" >I Already Have An Account</a> <br>
         <a href="{% url 'home' %}">Go Back</a>
     </form>
 </body>

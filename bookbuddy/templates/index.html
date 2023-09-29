@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <!-- {% load static %} -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +17,7 @@
     <style>
         /* main2.css */
         .main2 {
-            
+
             height: 350px;
             width: 100%;
             margin-top: 80px;
@@ -44,7 +45,7 @@
         .main3 {
             margin-top: 50px;
             display: flex;
-            
+
         }
 
         .demo {
@@ -198,56 +199,56 @@
             <div class="booklogo">
                 <i class="fa-solid fa-book-bookmark"></i>
             </div>
-            {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}"><button class="sign1">Logout</button></a>
-            <!-- <a href="javascript:void(0);" onclick="demo()"><button class="sign1">Take a Tour</button></a> -->
-            {% else %}
+            {% if not user.is_authenticated %}
+            <!-- <a href="{% url 'logout' %}"><button class="sign1">Logout</button></a> -->
             <div class="sign">
                 <a href="{% url 'signup' %}"><button class="sign1">Sign Up</button></a>
                 <a href="{% url 'login' %}"><button class="sign1">Log In</button></a>
+                <a href="#" class="start1"><button class="sign1">Support</button></a>
+            </div>
+
+            {% else %}
+            <div class="sign">
+                <a href="{% url 'logout' %}"><button class="sign1">Logout</button></a>
+                <!-- <a href="#" class="start1"><button class="sign1">Support</button></a> -->
             </div>
             {% endif %}
         </div>
+
         <div class="main2">
             <p class="t1">Discover books you'll love!</p>
             <p class="t2">Enter a book you like and the site will analyse our huge database of real
                 readers' favorite<br>books to provide book recommendations and suggestions for what to read next.
             </p>
         </div>
-
-        <!-- <nav class="navbar" style="background-color:pink">
-            <p class="navbar-brand" style="margin-left:30px">My Book Recommender</p>
-            
-            <ul type="none" style="margin-right:30px">
-                <li style="display:inline-block"> <a href="/"> Home</a></li>
-                <li style="display:inline-block"> <a href="{% url 'recommend' %}"> Recommend</a></li>
-                <li style="display:inline-block"> <a href="#"> Contact</a></li>
-                
-                <ul>
-                </nav> -->
+        
         {% if user.is_authenticated %}
+        <div class="pop" id="might" style="margin-top: 0px;">Explore To See What You Like Here</div> <br>
+        {% if details %}
         <div class="pop" id="might">You Might Also Like</div>
         <div class="row">
             <div class="main3">
-                <!-- <div class="demo"> -->
+                
                 {% for i in details %}
                 <div class="demo">
-                    <!-- <form> -->
+                    
                     <img src="{{ i.2 }}" alt="{{ i.0 }}" class="bgimage">
 
                     <p class="te1">{{ i.0 }}</p>
                     <p class="te1">-By {{ i.1 }}</p>
                     <p class="te1">ISBN {{ i.3 }}</p>
-                    <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}&ISBN={{ i.3 }}"
-                        >View More</a>
-                    <!-- </form> -->
+                    <a
+                        href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}&ISBN={{ i.3 }}">View
+                        More</a>
+                    
                 </div>
                 {% endfor%}
-                <!-- </div> -->
+                
             </div>
         </div>
         {% endif %}
-        <!-- <div class="container"> -->
+        {% endif %}
+        
         <div class="pop" id="pop">Popular Subjects</div>
         <div class="row">
             <div class="main3">
@@ -259,7 +260,7 @@
                     <p class="te1">-By {{ item.author }}</p>
                     <p class="te1">ISBN {{ item.ISBN }}</p>
                     <a href="{% url 'bookpage' %}?book_name={{ item.book_name }}&author={{ item.author }}&image_url={{ item.image_url }}&ISBN={{ item.ISBN }}"
-                    class="detail">View more</a>
+                        class="detail">View more</a>
                     <br>
                     <br>
                 </div>
@@ -267,63 +268,55 @@
             </div>
         </div>
 
-        <!-- </div> -->
+
+        
         <div class="navbar1">
             <p class="text">COPYRIGHT © - BookBuddy RIGHTS RESERVED</p>
         </div>
 
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
         <script>
-            function demo() {
-                introJs().setOptions(
+            const intro2 = introJs();
+
+            intro2.setOptions(
+                {
+                    steps: [{
+                        title: 'Welcome BookWorm!',
+                        intro: '<img src="https://images.unsplash.com/photo-1639628735078-ed2f038a193e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="" width="250"><p>I am your book buddy. I am here to make your reading journey more interesting...</p>'
+                    },
                     {
-                        steps:[{
-                            title:'Welcome back!',
-                            intro:'<img src="https://images.unsplash.com/photo-1639628735078-ed2f038a193e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="" width="250"><p>There are a few new things I need to tell you</p>'
-                        },
-                        {
-                            element:document.getElementById('might'),
-                            title:'Get what you loved!',
-                            intro:'<img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80" alt="" width="250"><p>Here you\'ll be recommended books based on what you read in past. (It might be empty if you haven\'t read anything here yet...</p>'
-                        },
-                        {
-                            element:document.getElementById('pop'),
-                            title:'Get to know the books more!',
-                            intro:'<img src="https://images.unsplash.com/photo-1598387993240-44b625d97d7f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1776&q=80" alt="" width="250"><p>The <a>view more</a> will give you more depth info about the book, along with the books related to it. Also you can rate a book. And mark it as read.'
-                        }
-                    ]
-                    }
-                ).start()
-            }
-            function demo2() {
-    
-                introJs().setOptions(
+                        element: document.getElementById('recom'),
+                        title: 'Find what you would love!',
+                        intro: '<img src="https://images.unsplash.com/photo-1590445922828-a3041822d630?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="" width="200"><p>This is where you can get books related to your favorite books!</p>'
+                    },
                     {
-                        steps:[{
-                            title:'Welcome BookWorm!',
-                            intro:'<img src="https://images.unsplash.com/photo-1639628735078-ed2f038a193e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="" width="250"><p>I am your book buddy. I am here to make your reading journey more interesting...</p>'
-                        },
-                        {
-                            element:document.getElementById('recom'),
-                            title:'Find what you would love!',
-                            intro:'<img src="https://images.unsplash.com/photo-1590445922828-a3041822d630?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="" width="200"><p>This is where you can get books related to your favorite books!</p>'
-                        },
-                        {
-                            element:document.getElementById('pop'),
-                            title:'Read what the community loved!',
-                            intro:'<img src="https://images.unsplash.com/photo-1598387993240-44b625d97d7f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1776&q=80" alt="" width="250"><p> Here are the most popular books in our database.'
-                        },
-                        {
-                            title:'Be A Part Today!',
-                            intro:'<img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1776&q=80" alt="" width="250"><p>There\'s a lot more here! Signup or Login to dive in the world of books...</p>'
-                        }
-                    ]
+                        element: document.getElementById('pop'),
+                        title: 'Read what the community loved!',
+                        intro: '<img src="https://images.unsplash.com/photo-1598387993240-44b625d97d7f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1776&q=80" alt="" width="250"><p> Here are the most popular books in our database.</p>'
+                    },
+                    {
+                        title: 'Be A Part Today!',
+                        intro: '<img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1776&q=80" alt="" width="250"><p>There\'s a lot more here! Signup or Login to dive in the world of books...</p>'
                     }
-                ).start()
+                    ]
                 }
-        </script> -->
-        
-      
+            )
+            intro2.onafterchange(function () {
+                console.log("Tooltip shown");
+            });
+
+            intro2.onbeforeexit(function () {
+                console.log("Tooltip hidden");
+            });
+            document.querySelector('.start1').addEventListener('click', function () {
+                setTimeout(function () {
+                    intro2.start();
+                }, 100); // Delay in milliseconds
+            })
+
+        </script>
+
+
 </body>
 
 </html>

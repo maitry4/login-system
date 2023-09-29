@@ -19,7 +19,7 @@
         }
 
         body {
-            background-color: #080710;
+            background-color: #FAF9F6;
         }
 
         .background {
@@ -70,7 +70,7 @@
 
         form * {
             font-family: 'Poppins', sans-serif;
-            color: #ffffff;
+            /* color: #ffffff; */
             letter-spacing: 0.5px;
             outline: none;
             border: none;
@@ -94,7 +94,7 @@
             display: block;
             height: 50px;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.07);
+            background-color: rgb(230 230 230 / 84%);
             border-radius: 3px;
             padding: 0 10px;
             margin-top: 8px;
@@ -102,14 +102,16 @@
             font-weight: 300;
         }
 
-        ::placeholder {
+        /* ::placeholder {
             color: #e5e5e5;
-        }
-
+        } */
+        a{
+    color:black;
+}
         button {
-            margin-top: 50px;
+            margin-top: 18px;
             width: 100%;
-            background-color: #ffffff;
+            background-color: #dcdcdc;
             color: #080710;
             padding: 15px 0;
             font-size: 18px;
@@ -167,7 +169,7 @@
           <div class="go"><i class="fab fa-google"></i>  Google</div>
           <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
         </div> -->
-        <a href="{% url 'signup' %}">Create a account</a> <br>
+        <a href="{% url 'signup' %}">Create An Account</a> <br>
         <a href="{% url 'home' %}">Go Back</a>
     </form>
 </body>
