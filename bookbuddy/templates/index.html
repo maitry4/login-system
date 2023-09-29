@@ -21,7 +21,9 @@
             height: 350px;
             width: 100%;
             margin-top: 80px;
-            /* background: url("{% static 'home.jpg' %}") 50% 0 no-repeat fixed; */
+            background-image: url("https://images.unsplash.com/photo-1591951425328-48c1fe7179cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGJvb2tzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60");
+            background-size: cover;
+            background-repeat: no-repeat;   
         }
 
         .t1 {
@@ -30,7 +32,7 @@
             padding-top: 30px;
         }
 
-        .t2 {
+        .t2 { 
             text-align: center;
             font-size: 25px;
         }
@@ -193,7 +195,6 @@
             <div class="list">
                 <a class="li" href="/">Home</a>
                 <a class="li" href="{% url 'recommend' %}" id="recom">Recommend</a>
-                <a class="li" href="#">Contact</a>
             </div>
 
             <div class="booklogo">
@@ -221,7 +222,7 @@
                 readers' favorite<br>books to provide book recommendations and suggestions for what to read next.
             </p>
         </div>
-        
+
         {% if user.is_authenticated %}
         {% if not details %}
         <div class="pop" id="might" style="margin-top: 0px;">Explore To See What You Like Here</div> <br>
@@ -230,10 +231,10 @@
         <div class="pop" id="might">You Might Also Like</div> <br>
         <div class="row">
             <div class="main3">
-                
+
                 {% for i in details %}
                 <div class="demo">
-                    
+
                     <img src="{{ i.2 }}" alt="{{ i.0 }}" class="bgimage">
 
                     <p class="te1">{{ i.0 }}</p>
@@ -242,15 +243,15 @@
                     <a
                         href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}&ISBN={{ i.3 }}">View
                         More</a>
-                    
+
                 </div>
                 {% endfor%}
-                
+
             </div>
         </div>
         {% endif %}
         {% endif %}
-        
+
         <div class="pop" id="pop">Popular Subjects</div> <br>
         <div class="row">
             <div class="main3">
@@ -271,7 +272,7 @@
         </div>
 
 
-        
+
         <div class="navbar1">
             <p class="text">COPYRIGHT © - BookBuddy RIGHTS RESERVED</p>
         </div>

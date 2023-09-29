@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% block head %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,7 +87,7 @@
 </head>
 
 <body>
-    
+
     {% block content %}
     <div class="main">
         <div class="navbar">
@@ -99,7 +100,7 @@
             <div class="booklogo">
                 <i class="fa-solid fa-book-bookmark"></i>
             </div>
-            
+
             <div class="sign">
                 <a href="{% url 'signup' %}"><button class="sign1">Sign Up</button></a>
                 <a href="{% url 'login' %}"><button class="sign1">Log In</button></a>

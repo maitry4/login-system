@@ -203,8 +203,8 @@
         }
 
         /* Rating */
-         /* Hide the default radio button */
-         input[type="radio"] {
+        /* Hide the default radio button */
+        input[type="radio"] {
             display: none;
         }
 
@@ -219,9 +219,11 @@
         }
 
         .custom-radio::before {
-            content: "\2605"; /* Unicode character for a star */
+            content: "\2605";
+            /* Unicode character for a star */
             font-size: 24px;
-            color: #fcebaa; /* Yellow color */
+            color: #fcebaa;
+            /* Yellow color */
             position: absolute;
             top: 50%;
             left: 50%;
@@ -229,12 +231,10 @@
         }
 
         /* Style the radio button when it's checked */
-        input[type="radio"]:checked + .custom-radio::before {
-            color: #fff200; /* Yellow color */
+        input[type="radio"]:checked+.custom-radio::before {
+            color: #fff200;
+            /* Yellow color */
         }
-        
-
-
     </style>
 </head>
 
@@ -245,7 +245,6 @@
             <div class="list">
                 <a class="li" href="/">Home</a>
                 <a class="li" href="{% url 'recommend' %}">Recommend</a>
-                <a class="li" href="#">Contact</a>
             </div>
 
             {% if user.is_authenticated %}
@@ -293,15 +292,16 @@
                         <input type="radio" id="star5" name="rating" value="5" />
                         <span class="custom-radio"></span>
                     </label>
-                    
+
                 </div>
                 <br>
                 <button type="submit" class="btn btn-lg my-btn"><a id="link"
-                href="{% url 'bookpage' %}?book_name={{ book_name }}&author={{ itemauthor }}&image_url={{ image_url }}&ISBN={{ ISBN }}" style="display: inline-block; color:white; text-decoration: none;"
-                >Rate</a></button>
-                <button class="btn btn-lg my-btn"><a href="{% url 'markread' %}?book_name={{ book_name }}&ISBN={{ ISBN}}" 
-                    style="display: inline-block; color:white; text-decoration: none;">mark as read</a></button>
-                
+                        href="{% url 'bookpage' %}?book_name={{ book_name }}&author={{ itemauthor }}&image_url={{ image_url }}&ISBN={{ ISBN }}"
+                        style="display: inline-block; color:white; text-decoration: none;">Rate</a></button>
+                <button class="btn btn-lg my-btn"><a
+                        href="{% url 'markread' %}?book_name={{ book_name }}&ISBN={{ ISBN}}"
+                        style="display: inline-block; color:white; text-decoration: none;">mark as read</a></button>
+
             </form>
             {% endblock %}
 
@@ -313,15 +313,21 @@
     <p class="like">More Like This !!</p>
     <div class="row">
         <div class="main3">
+
             {% for i in details %}
+            <div class="demo">
+
                 <img src="{{ i.2 }}" alt="{{ i.0 }}" class="bgimage">
+
                 <p class="te1">{{ i.0 }}</p>
                 <p class="te1">-By {{ i.1 }}</p>
                 <p class="te1">ISBN {{ i.3 }}</p>
-                <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}&ISBN={{ i.3 }}"
-                    >View More</a>
+                <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}&ISBN={{ i.3 }}">View
+                    More</a>
+
             </div>
             {% endfor%}
+
         </div>
     </div>
 
