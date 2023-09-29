@@ -128,6 +128,7 @@ def index(request):
             result = cursor.fetchone()
             try:
                 result=result[0]
+                # print(result)
                 details = suggest(result)
             except Exception:
                 details = suggest(result)

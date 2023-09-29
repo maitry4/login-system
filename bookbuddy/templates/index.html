@@ -228,6 +228,9 @@
         <div class="pop" id="might" style="margin-top: 0px;">Explore To See What You Like Here</div> <br>
         {% endif %}
         {% if details %}
+        <br>
+        <br>
+        <br>
         <div class="pop" id="might">You Might Also Like</div> <br>
         <div class="row">
             <div class="main3">
@@ -241,17 +244,20 @@
                     <p class="te1">-By {{ i.1 }}</p>
                     <p class="te1">ISBN {{ i.3 }}</p>
                     <a
-                        href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}&ISBN={{ i.3 }}">View
-                        More</a>
-
+                    href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}&ISBN={{ i.3 }}">View
+                    More</a>
+                    
                 </div>
                 {% endfor%}
-
+                
             </div>
         </div>
         {% endif %}
         {% endif %}
-
+        
+        <br>
+        <br>
+        <br>
         <div class="pop" id="pop">Popular Subjects</div> <br>
         <div class="row">
             <div class="main3">

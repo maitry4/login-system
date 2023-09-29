@@ -72,6 +72,27 @@
             transition: 0.3s;
         }
 
+        .te1 {
+            font-size: 20px;
+            margin-left: 3px;
+        }
+
+        .main3 {
+            margin-top: 50px;
+            display: flex;
+
+        }
+
+        .demo {
+            height: auto;
+            width: auto;
+            box-shadow: 5px 5px 25px lightgrey;
+            border-radius: 20px;
+            padding: 15px;
+            margin-left: 60px;
+            display: inline-block;
+        }
+
         /* navbar end */
         @keyframes pageEnterAnimation {
             from {
@@ -105,6 +126,43 @@
             font-size: 20px;
             text-align: center;
         }
+
+        .rb {
+            margin-top: 15px;
+            text-align: center;
+
+        }
+
+        .form-control {
+            position: relative;
+            color: grey;
+            width: 50%;
+            margin-left: 25%;
+            margin-top: 50px;
+            border-radius: 30px;
+            height: 50px;
+            border: none;
+            box-shadow: 5px 5px 25px grey;
+        }
+
+        /* Style the container for the input and icon */
+        .input-container {
+            position: relative;
+        }
+
+        /* Style the icon */
+        .icon {
+            position: absolute;
+            left: 10px;
+            /* Adjust the position of the icon */
+            top: 50%;
+            /* Adjust the vertical position of the icon */
+            transform: translateY(-50%);
+            font-size: 20px;
+            /* Adjust the icon size */
+            color: #555;
+            /* Adjust the icon color */
+        }
     </style>
 </head>
 
@@ -131,28 +189,42 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1 style="margin:4%;">Recommend Books</h1>
+                <h1 style="margin-top:50px; margin-left:500px;">Recommend Books</h1>
             </div>
 
+
+
+
+
             <form action="{% url 'recommend_books' %}" method="POST"> {% csrf_token %}
+                <div class="input-container">
 
-                <input type="text" class="form-control" name="user_input" style="border:2px solid black;"><br>
-                <button type="submit" class="btn btn-lg my-btn" style="border:2px solid black;">Search</button>
+                    <input type="text" class="form-control" name="user_input" style="border:2px solid black;"
+                        placeholder="Type Book Name Here.."><br>
+                    <i class="icon"></i>
+                    <button type="submit" class="btn btn-lg my-btn"
+                        style="border:2px solid black; margin-left:330px;">Search</button>
+                </div>
             </form>
+            <div class="row">
 
-            {% if data != "Sorry No such book in our database" %}
-            {% for i in data %}
-            <div class="col-md-3" style="margin-top:50px;">
-                <div class="card-body">
+                <div class="main3">
+                    
+                    {% if data != "Sorry No such book in our database" %}
+                    {% for i in data %}
+                    <div class="demo" style="margin-top:50px;">
+                        <!-- <div class="card-body"> -->
                     <img class="card-image-top" src="{{ i.2 }}" alt="{{ i.0 }}">
                     <h3 style="margin:1%">{{ i.0 }}</h3>
                     <p>-By {{ i.1 }}</p>
+                    <!-- </div> -->
+                    <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}"
+                        target="_blank">View more</a>
                 </div>
-                <a href="{% url 'bookpage' %}?book_name={{ i.0 }}&author={{ i.1 }}&image_url={{ i.2 }}"
-                    target="_blank">View more</a>
+                {% endfor%}
+                {% endif %}
             </div>
-            {% endfor%}
-            {% endif %}
+        </div>
             {% if data == "Sorry No such book in our database" %}
             <br>
             <p>{{ data }}</p>
