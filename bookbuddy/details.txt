@@ -1,0 +1,11 @@
+Technologies used:
+Python (sklearn, django, mysql connector)
+HTML, CSS, JavaScript, IntroJs, Bootstrap
+MySQL for database
+
+Dependancies:
+MySQL Database
+
+Steps:
+1. Before running import the database_final.sql file in MySQL
+2. Next get inside the main bookbuddy folder in command prompt and type: python manage.py runserver.
