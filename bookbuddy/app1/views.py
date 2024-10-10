@@ -287,3 +287,7 @@ def mark_as_read(request):
             cursor.close()
             conn.close()
     return HttpResponse("Couldn't Mark As Read. Try again later!")
+
+@login_required
+def past_read(request):
+    pass

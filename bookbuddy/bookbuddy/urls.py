@@ -28,5 +28,6 @@ urlpatterns = [
     path('signup/', views.SignupPage, name='signup'),
     path('login/', views.LoginPage, name='login'),
     path('logout/', views.LogoutPage, name='logout'),
+    path('pastread/', views.past_read, name='pastread'),
 
 ]
